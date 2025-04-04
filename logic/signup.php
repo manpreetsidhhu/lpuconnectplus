@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 
-    $stmt = $conn->prepare("INSERT INTO users (name, username, email, password, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
-    $stmt->bind_param("sssss", $name, $username, $email, $hashedPassword);
+    $stmt = $conn->prepare("INSERT INTO users (fullname, username, email, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $username, $email, $hashedPassword);
 
     if ($stmt->execute()) {
         header("Location: ../login.php?signup=success");

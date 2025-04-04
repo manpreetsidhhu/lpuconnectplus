@@ -34,14 +34,19 @@ if (count($nameParts) > 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LPU Connect+</title>
+    <link rel="icon" href="media/lpuicon.svg">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/users.css">
+    <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body>
     <header class="header-container">
         <div class="header-left">
-            <img src="https://ums.lpu.in/lpuums/assets/login/img/logos/seal.svg" alt="LPU Logo">
+            <img src="media/lpuicon.svg" alt="LPU Logo">
             <h1 class="header-title">
                 <span class="full-title">LPU<br>Connect+</span>
                 <span class="short-title">LC+</span>
@@ -52,36 +57,94 @@ if (count($nameParts) > 1) {
                 <?php echo htmlspecialchars($user['fullname']); ?><br>
                 <span style="color: grey;">( @<?php echo htmlspecialchars($user['username']); ?> )</span>
             </span>
-            <div class="profile-placeholder"><?php echo $initials; ?></div>
-            <a href="logic/logout.php" class="logout-button">Logout</a>
+            <div class="profile-placeholder"><?php echo $initials; ?> </div>
+            <div class="options-menu">
+                <button class="options-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="options-dropdown">
+                    <button class="popup-option" id="visitProfile">Visit Profile</button>
+                    <div class="popup-option">
+                        <span>Dark Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggleCheckbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <a href="logic/logout.php" class="logout-button">Logout</a>
+                </div>
+            </div>
+        </div>
+        </div>
         </div>
     </header>
 
     <main class="chat-container">
         <!-- Left: User List -->
         <div class="user-list">
-            <input type="text" id="searchUsers" placeholder="Search users or messages...">
+            <input type="text" id="searchUsers" placeholder="Search users...">
             <ul id="userList">
                 <?php
                 include 'logic/db_connect.php';
-                $query = "SELECT id, username, fullname FROM users";
-                $result = $conn->query($query);
+
+                // Fetch users and their latest messages using a subquery
+                $query = "
+                    SELECT u.id, u.username, u.fullname, 
+                           lm.message, lm.sent_at, lm.sender_id
+                    FROM users u
+                    LEFT JOIN (
+                        SELECT m1.sender_id, m1.receiver_id, m1.message, m1.sent_at
+                        FROM messages m1
+                        INNER JOIN (
+                            SELECT 
+                                CASE 
+                                    WHEN sender_id = ? THEN receiver_id 
+                                    ELSE sender_id 
+                                END AS user_id,
+                                MAX(sent_at) AS latest_time
+                            FROM messages
+                            WHERE sender_id = ? OR receiver_id = ?
+                            GROUP BY user_id
+                        ) m2 ON ((m1.sender_id = ? AND m1.receiver_id = m2.user_id) OR (m1.receiver_id = ? AND m1.sender_id = m2.user_id))
+                        AND m1.sent_at = m2.latest_time
+                    ) lm ON (u.id = lm.sender_id AND lm.receiver_id = ?) OR (u.id = lm.receiver_id AND lm.sender_id = ?)
+                    ORDER BY lm.sent_at DESC
+                ";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("iiiiiii", $user_id, $user_id, $user_id, $user_id, $user_id, $user_id, $user_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 while ($row = $result->fetch_assoc()) {
                     $name = htmlspecialchars($row['fullname']);
                     if (empty($name)) {
                         $name = htmlspecialchars($row['username']);
                     }
-                    // Generate initials for the user
                     $isYou = ($row['id'] == $_SESSION['user_id']);
                     $displayName = $isYou ? "$name (You)" : $name;
                     $profileColor = $isYou ? '#333' : '#f47d1c';
                     $nameletter = strtoupper($name);
 
+                    // Format the latest message
+                    $latestMessage = htmlspecialchars($row['message']);
+                    $latestMessage = $row['sender_id'] == $user_id ? "You: $latestMessage" : $latestMessage;
+
+                    // Truncate the message to 20 characters
+                    if (strlen($latestMessage) > 20) {
+                        $latestMessage = substr($latestMessage, 0, 20) . "...";
+                    }
+
+                    // Format the time
+                    $latestTime = $row['sent_at'] ? date("h:i A", strtotime($row['sent_at'])) : "";
+
                     echo "<li class='user-item' data-user='{$row['id']}'>
                         <span class='profile-pic' style='background-color: {$profileColor};'>{$nameletter[0]}</span>
-                        <span class='user-name'>{$displayName}</span>
-                      </li>";
+                        <div class='user-info'>
+                            <span class='user-name'>{$displayName}</span>
+                            <span class='latest-message'>{$latestMessage}</span>
+                        </div>
+                        <span class='latest-time'>{$latestTime}</span>
+                    </li>";
                 }
                 $conn->close();
                 ?>
@@ -102,10 +165,13 @@ if (count($nameParts) > 1) {
 
             <!-- Message Input Box (Visible only when chat is active) -->
             <div class="chat-input-container">
-                <label for="media-upload" class="media-btn">
-                    <i class="fas fa-paperclip"></i>
-                </label>
-                <input type="file" id="media-upload" class="media-input" style="display: none;">
+                <button id="extraOptions" class="extra-options-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <div id="extraOptionsPopup" class="extra-options-popup">
+                    <button id="sendLocation" class="popup-option">Send Location</button>
+                    <!-- Add more options here -->
+                </div>
                 <input type="text" id="messageInput" placeholder="Type a message..." class="message-input">
                 <button id="sendMessage" class="send-btn">
                     <i class="fas fa-paper-plane"></i>
@@ -199,15 +265,11 @@ if (count($nameParts) > 1) {
                 fetch(`logic/fetch_messages.php?receiver_id=${receiverId}`)
                     .then(response => response.json())
                     .then(data => {
-                        let messages = data.messages;
+                        const messages = data.messages;
 
-                        // Ensure correct sorting: Date DESC, Time ASC
+                        // Sort messages by sent_on (date) and sent_at (time)
                         messages.sort((a, b) => {
-                            const dateComparison = new Date(b.sent_on) - new Date(a.sent_on); // Reverse order for date
-                            if (dateComparison !== 0) {
-                                return dateComparison; // Latest date at the bottom
-                            }
-                            return new Date(`1970-01-01T${a.sent_at}`) - new Date(`1970-01-01T${b.sent_at}`); // Time ASC
+                            return new Date(a.sent_on + " " + a.sent_at) - new Date(b.sent_on + " " + b.sent_at);
                         });
 
                         let lastDate = null;
@@ -250,24 +312,6 @@ if (count($nameParts) > 1) {
                     })
                     .catch(error => console.error("Error fetching messages:", error));
             }
-
-            // Function to format the date (Today, Yesterday, or exact date)
-            function formatDate(dateString) {
-                const today = new Date();
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-
-                const messageDate = new Date(dateString);
-
-                if (messageDate.toDateString() === today.toDateString()) {
-                    return "Today";
-                } else if (messageDate.toDateString() === yesterday.toDateString()) {
-                    return "Yesterday";
-                } else {
-                    return messageDate.toLocaleDateString(); // Show full date if not today/yesterday
-                }
-            }
-
 
             // Function to format the date (Today, Yesterday, or exact date)
             function formatDate(dateString) {
@@ -365,30 +409,82 @@ if (count($nameParts) > 1) {
         });
     </script>
 
-    <style>
-        /* Add styles for the date header */
-        .date-header {
-            text-align: center;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #555;
-        }
+    <script>
+        // Theme toggle functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            const themeToggleCheckbox = document.getElementById("themeToggleCheckbox");
+            const body = document.body;
 
-        /* Add styles for responsiveness */
-        .header-title .short-title {
-            display: none;
-        }
+            // Load saved theme from localStorage
+            const savedTheme = localStorage.getItem("theme") || "light-theme";
+            body.classList.add(savedTheme);
+            themeToggleCheckbox.checked = savedTheme === "dark-theme";
 
-        @media (max-width: 468px) {
-            .header-title .full-title {
-                display: none;
-            }
+            themeToggleCheckbox.addEventListener("change", function() {
+                const newTheme = themeToggleCheckbox.checked ? "dark-theme" : "light-theme";
+                body.classList.remove("dark-theme", "light-theme");
+                body.classList.add(newTheme);
+                localStorage.setItem("theme", newTheme);
+            });
 
-            .header-title .short-title {
-                display: inline;
-            }
-        }
-    </style>
+            document.getElementById("visitProfile").addEventListener("click", function() {
+                window.location.href = "profile.php"; // Adjust the URL as needed
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const extraOptionsBtn = document.getElementById("extraOptions");
+            const extraOptionsPopup = document.getElementById("extraOptionsPopup");
+            const sendLocationBtn = document.getElementById("sendLocation");
+
+            // Toggle popup visibility
+            extraOptionsBtn.addEventListener("click", function() {
+                extraOptionsPopup.style.display =
+                    extraOptionsPopup.style.display === "block" ? "none" : "block";
+            });
+
+            // Close popup when clicking outside
+            document.addEventListener("click", function(event) {
+                if (!extraOptionsBtn.contains(event.target) && !extraOptionsPopup.contains(event.target)) {
+                    extraOptionsPopup.style.display = "none";
+                }
+            });
+
+            // Send geolocation with address
+            sendLocationBtn.addEventListener("click", function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const latitude = position.coords.latitude;
+                            const longitude = position.coords.longitude;
+
+                            // Use a reverse geocoding API to fetch the address
+                            const geocodingApiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+                            fetch(geocodingApiUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const address = data.display_name || "Address not available";
+                                    const locationMessage = `My location: ${address} (https://www.google.com/maps?q=${latitude},${longitude})`;
+                                    document.getElementById("messageInput").value = locationMessage;
+                                })
+                                .catch(error => {
+                                    console.error("Error fetching address:", error);
+                                    alert("Unable to fetch address. Please try again.");
+                                });
+                        },
+                        function(error) {
+                            alert("Unable to fetch location. Please try again.");
+                        }
+                    );
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

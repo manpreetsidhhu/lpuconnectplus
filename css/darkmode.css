@@ -1,0 +1,117 @@
+body.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+body.dark-theme .message.received {
+  background-color: #424242;
+  color: #ffffff;
+}
+body.dark-theme .header-container {
+  background-color: #1e1e1e;
+  border-bottom: 1px solid #999;
+}
+body.dark-theme .header-title {
+  color: #ffffff;
+}
+body.dark-theme .header-right {
+  color: #ffffff;
+}
+body.dark-theme .header-right .username {
+  color: #ffffff;
+}
+body.dark-theme .header-right .logout-button {
+  background-color: #ff9800;
+  color: white;
+}
+body.dark-theme .header-right .logout-button:hover {
+  background-color: #e68900;
+}
+body.dark-theme .user-list {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-right: 1px solid #999;
+}
+body.dark-theme .user-list input {
+  background-color: #424242;
+  color: #ffffff;
+  border-radius: 20px;
+}
+body.dark-theme .user-list input::placeholder {
+  color: #ffffff;
+}
+body.dark-theme .user-item {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-theme .user-item:hover {
+  background-color: #424242;
+}
+body.dark-theme .user-item.active {
+  background-color: #ff9800;
+  color: white;
+}
+body.dark-theme .user-item.active:hover {
+  background-color: #e68900;
+}
+body.dark-theme .chat-area .chat-header {
+  background-color: rgb(45, 45, 45);
+  color: #ffffff;
+  border-bottom: 1px solid #999;
+}
+body.dark-theme .chat-area .chat-header .chat-username {
+  color: #ffffff;
+}
+body.dark-theme .chat-area .chat-input-container {
+  background-color: #424242;
+  color: #ffffff;
+}
+body.dark-theme .chat-area .chat-input-container input {
+  background-color: #424242;
+  color: #ffffff;
+}
+body.dark-theme .chat-area .chat-input-container input::placeholder {
+  color: #ffffff;
+}
+body.dark-theme .chat-area .chat-input-container .send-btn {
+  filter: invert(1);
+}
+body.dark-theme .chat-area .chat-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-theme .message.sent {
+  background-color: #eb8d00;
+  color: white;
+}
+body.dark-theme .message.sent .timestamp {
+  color: #ffffff;
+}
+body.dark-theme .slider {
+  background-color: #555; /* Adjusted slider background for dark theme */
+}
+body.dark-theme input:checked + .slider {
+  background-color: #3399ff; /* Adjusted checked color for dark theme */
+}
+body.dark-theme .options-dropdown {
+  background-color: #333; /* Dark background for dark theme */
+  border-color: #555; /* Adjusted border color */
+  color: #fff; /* White text for dark theme */
+}
+body.dark-theme .options-dropdown .popup-option {
+  color: #fff; /* White text for dark theme */
+}
+body.dark-theme .options-dropdown .popup-option:hover {
+  background-color: #555; /* Darker hover effect for dark theme */
+}
+body.dark-theme .options-dropdown .logout-button {
+  background-color: #c9302c; /* Adjusted color for dark theme */
+}
+body.dark-theme .options-dropdown .logout-button:hover {
+  background-color: #a72820; /* Darker hover effect for dark theme */
+}
+body.dark-theme .options-btn {
+  color: #fff; /* Change color for dark theme */
+}
+body.dark-theme .options-menu:hover .options-btn {
+  color: #999; /* Change color on hover for dark theme */
+}

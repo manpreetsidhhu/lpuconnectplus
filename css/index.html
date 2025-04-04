@@ -1,0 +1,199 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LPU Connect+</title>
+    <link rel="icon" href="media/lpuicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="chat.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style type="text/css">
+      * {
+        -webkit-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+      }
+    </style>
+  </head>
+
+  <body class="light-theme">
+    <header class="header-container">
+      <div class="header-left">
+        <img src="../media/lpuicon.svg" alt="LPU Logo" />
+        <h1 class="header-title">
+          <span class="full-title">LPU<br />Connect+</span>
+          <span class="short-title">LC+</span>
+        </h1>
+      </div>
+      <div class="header-right">
+        <span class="username">
+          Manpreet<br />
+          <span style="color: grey">( @helo )</span>
+        </span>
+        <div class="profile-placeholder">M</div>
+        <a href="logic/logout.php" class="logout-button">Logout</a>
+        <span class="theme-toggle" id="themeToggle"
+          ><i class="fas fa-moon"></i
+        ></span>
+      </div>
+    </header>
+
+    <main class="chat-container">
+      <!-- Left: User List -->
+      <div class="user-list">
+        <input
+          type="text"
+          id="searchUsers"
+          placeholder="Search users..."
+          fdprocessedid="pb66kf"
+        />
+        <ul id="userList">
+          <li class="user-item" data-user="2">
+            <span class="profile-pic" style="background-color: #f47d1c">A</span>
+            <div class="user-info">
+              <span class="user-name">Ayush</span>
+              <span class="latest-message">You: fuck you</span>
+            </div>
+            <span class="latest-time">08:27 PM</span>
+          </li>
+          <li class="user-item" data-user="3">
+            <span class="profile-pic" style="background-color: #f47d1c">Y</span>
+            <div class="user-info">
+              <span class="user-name">Yogansh</span>
+              <span class="latest-message">You: hi</span>
+            </div>
+            <span class="latest-time">08:27 PM</span>
+          </li>
+          <li class="user-item" data-user="4">
+            <span class="profile-pic" style="background-color: #f47d1c">A</span>
+            <div class="user-info">
+              <span class="user-name">Aakash Kumar</span>
+              <span class="latest-message">You: hi</span>
+            </div>
+            <span class="latest-time">08:10 PM</span>
+          </li>
+          <li class="user-item" data-user="1">
+            <span class="profile-pic" style="background-color: #333">M</span>
+            <div class="user-info">
+              <span class="user-name">Manpreet (You)</span>
+              <span class="latest-message">You: hi</span>
+            </div>
+            <span class="latest-time">08:08 PM</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: Chat Area -->
+      <div class="chat-area">
+        <button id="backToUsers" class="back-btn" fdprocessedid="k9ix9j">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="chat-header">
+          <span class="profile-pic" style="background-color: #f47d1c">Y</span
+          ><span class="chat-username">Yogansh</span>
+        </div>
+        <div class="chat-content">
+          <div class="date-header" style="text-align: center">3/29/2025</div>
+          <div class="message received">
+            <p>That’s a good plan!</p>
+            <span class="timestamp">10:15</span>
+          </div>
+          <div class="message sent">
+            <p>Want to grab coffee later?</p>
+            <span class="timestamp">11:05</span>
+          </div>
+          <div class="date-header" style="text-align: center">3/30/2025</div>
+          <div class="message received">
+            <p>Best game of the season!</p>
+            <span class="timestamp">12:15</span>
+          </div>
+          <div class="message sent">
+            <p>Let’s watch the next one together.</p>
+            <span class="timestamp">12:55</span>
+          </div>
+          <div class="date-header" style="text-align: center">3/31/2025</div>
+          <div class="message received">
+            <p>That’s awesome!</p>
+            <span class="timestamp">10:45</span>
+          </div>
+          <div class="message sent">
+            <p>Ready for the new week?</p>
+            <span class="timestamp">11:10</span>
+          </div>
+          <div class="date-header" style="text-align: center">4/1/2025</div>
+          <div class="message received">
+            <p>Good job!</p>
+            <span class="timestamp">11:15</span>
+          </div>
+          <div class="message sent">
+            <p>Want to discuss the next task?</p>
+            <span class="timestamp">12:05</span>
+          </div>
+          <div class="date-header" style="text-align: center">4/2/2025</div>
+          <div class="message received">
+            <p>Will update the document now.</p>
+            <span class="timestamp">11:15</span>
+          </div>
+          <div class="message sent">
+            <p>Thanks a lot!</p>
+            <span class="timestamp">12:50</span>
+          </div>
+          <div class="date-header" style="text-align: center">Yesterday</div>
+          <div class="message received">
+            <p>Meeting at 4 PM?</p>
+            <span class="timestamp">09:25</span>
+          </div>
+          <div class="message sent">
+            <p>Sounds good.</p>
+            <span class="timestamp">09:27</span>
+          </div>
+          <div class="date-header" style="text-align: center">Today</div>
+          <div class="message sent">
+            <p>helllo ayush</p>
+            <span class="timestamp">00:35</span>
+          </div>
+          <div class="message sent">
+            <p>hi</p>
+            <span class="timestamp">10:49</span>
+          </div>
+          <div class="message sent">
+            <p>hi</p>
+            <span class="timestamp">20:27</span>
+          </div>
+        </div>
+
+        <!-- Message Input Box (Visible only when chat is active) -->
+        <div class="chat-input-container">
+          <button
+            id="extraOptions"
+            class="extra-options-btn"
+            fdprocessedid="a9ketd"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+          <div id="extraOptionsPopup" class="extra-options-popup">
+            <button id="sendLocation" class="popup-option">
+              Send Location
+            </button>
+            <!-- Add more options here -->
+          </div>
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            class="message-input"
+            fdprocessedid="kzaejh"
+          />
+          <button id="sendMessage" class="send-btn" fdprocessedid="hxp6p">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

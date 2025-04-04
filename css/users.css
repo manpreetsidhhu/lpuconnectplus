@@ -1,0 +1,78 @@
+/* Left Panel: User List */
+#searchUsers:focus {
+  border-color: #f47d1c;
+  outline: none;
+}
+.user-list {
+  width: 28%;
+  max-width: 280px;
+  background: #f7f7f7;
+  border-right: 1px solid #ddd;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Prevent shrinking of user list */
+}
+.user-list input {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.user-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.user-item:hover {
+  background: #e0e0e0;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  margin-right: 10px;
+  object-fit: cover;
+}
+.user-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.user-info {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+.user-name {
+  font-weight: bold;
+  display: block;
+}
+.latest-message {
+  font-size: 12px;
+  color: gray;
+  display: block;
+  margin-top: 2px;
+  white-space: nowrap; /* Prevent long messages from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+}
+.latest-time {
+  font-size: 12px;
+  color: gray;
+  margin-left: auto;
+}

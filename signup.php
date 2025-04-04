@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup/LPU Connect +</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="icon" href="https://ums.lpu.in/lpuums/assets/login/img/favicon.ico" />
+    <link rel="icon" href="media/lpuicon.svg"/>
     <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>
     <div class="header-container">
         <div class="header">
-            <img src="https://ums.lpu.in/lpuums/assets/login/img/logos/seal.svg" alt="LPU Logo" />
+            <img src="media/lpuicon.svg" alt="LPU Logo" />
             <h1>LPU<br />Connect+</h1>
         </div>
     </div>
@@ -35,11 +35,6 @@
     }
     ?>
     <br>
-    <hr><br><br><br><br>
-    <hr><br>
-    <br>
-    <hr><br>
-    <hr><br>
     <form class="form" action="logic/signup.php" method="post">
         <p>Already have an account? <a href='login.php'>Login</a></p>
         <br><br>
@@ -66,8 +61,6 @@
         <button type="submit">Sign Up</button>
     </form>
     <br>
-    <hr><br><br><br><br>
-    <hr><br>
     <footer>
         <p>&copy;2025 LPU Connect+</p>
     </footer>
