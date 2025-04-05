@@ -1,6 +1,6 @@
 body.dark-theme {
   background-color: #121212;
-  color: #ffffff;
+  color: #e0e0e0;
 }
 body.dark-theme .message.received {
   background-color: #424242;
@@ -86,6 +86,13 @@ body.dark-theme .message.sent {
 body.dark-theme .message.sent .timestamp {
   color: #ffffff;
 }
+body.dark-theme .message.received {
+  background-color: #424242;
+  color: #ffffff;
+}
+body.dark-theme .message.received .timestamp {
+  color: #ffffff;
+}
 body.dark-theme .slider {
   background-color: #555; /* Adjusted slider background for dark theme */
 }
@@ -114,4 +121,25 @@ body.dark-theme .options-btn {
 }
 body.dark-theme .options-menu:hover .options-btn {
   color: #999; /* Change color on hover for dark theme */
+}
+body.dark-theme .profile-container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+body.dark-theme input {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+body.dark-theme .save-btn {
+  background-color: #388e3c;
+}
+body.dark-theme .save-btn:hover {
+  background-color: #2e7d32;
+}
+body.dark-theme .delete-btn {
+  background-color: #d32f2f;
+}
+body.dark-theme .delete-btn:hover {
+  background-color: #c62828;
 }

@@ -1,4 +1,23 @@
 /* Left Panel: User List */
+.chat-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.control-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #dadada;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.control-button:hover {
+  background-color: #979797;
+}
+.control-button:focus {
+  outline: none;
+}
 #searchUsers:focus {
   border-color: #f47d1c;
   outline: none;
